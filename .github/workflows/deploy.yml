@@ -1,22 +1,46 @@
-name: Deploy
+name: Deploy to Cloudflare Pages
+
 on:
   push:
     branches:
       - main
+      - master
+  workflow_dispatch:
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Deploy
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
+
       - name: Install dependencies
-        run: npm ci
-      - name: Build Remix application
+        run: npm install
+
+      - name: Build
         run: npm run build
-      - name: Deploy
+
+      - name: List build output
+        run: |
+          echo "=== Listing project root ==="
+          ls -la
+          echo "=== Listing build directory ==="
+          ls -la build/ 2>/dev/null || echo "build/ not found"
+          echo "=== Listing build/client directory ==="
+          ls -la build/client/ 2>/dev/null || echo "build/client/ not found"
+          echo "=== Listing public directory ==="
+          ls -la public/ 2>/dev/null || echo "public/ not found"
+
+      - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: '4yRc88tOv65xjW4OauwCnSkHx4w5DHU2UN6qEfn-'
+          accountId: '8a3eb2fd3bea54d1d7d2d490e0b1a6a2'
+          command: pages deploy ./public --project-name=test11111
