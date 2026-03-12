@@ -32,7 +32,7 @@ jobs:
             done
           fi
         env:
-          CLOUDFLARE_API_TOKEN: '4yRc88tOv65xjW4OauwCnSkHx4w5DHU2UN6qEfn-'
+          CLOUDFLARE_API_TOKEN: 'MMx5FRZM5sHbFKizI2qRTXyYtyCD1DheZoEvZj2O'
           CLOUDFLARE_ACCOUNT_ID: '8a3eb2fd3bea54d1d7d2d490e0b1a6a2'
 
       - name: Build
@@ -41,6 +41,6 @@ jobs:
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: '4yRc88tOv65xjW4OauwCnSkHx4w5DHU2UN6qEfn-'
+          apiToken: 'MMx5FRZM5sHbFKizI2qRTXyYtyCD1DheZoEvZj2O'
           accountId: '8a3eb2fd3bea54d1d7d2d490e0b1a6a2'
           command: pages deploy ./public --project-name=test11111
