@@ -24,19 +24,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Run D1 migrations
+        run: |
+          if [ -d "drizzle/migrations" ]; then
+            for f in drizzle/migrations/*.sql; do
+              npx wrangler d1 execute db_test_1 --file="$f" --remote
+            done
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: '4yRc88tOv65xjW4OauwCnSkHx4w5DHU2UN6qEfn-'
+          CLOUDFLARE_ACCOUNT_ID: '8a3eb2fd3bea54d1d7d2d490e0b1a6a2'
+
       - name: Build
         run: npm run build
-
-      - name: List build output
-        run: |
-          echo "=== Listing project root ==="
-          ls -la
-          echo "=== Listing build directory ==="
-          ls -la build/ 2>/dev/null || echo "build/ not found"
-          echo "=== Listing build/client directory ==="
-          ls -la build/client/ 2>/dev/null || echo "build/client/ not found"
-          echo "=== Listing public directory ==="
-          ls -la public/ 2>/dev/null || echo "public/ not found"
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
